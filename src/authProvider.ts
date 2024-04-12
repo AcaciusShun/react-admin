@@ -39,6 +39,21 @@ export const authProvider: AuthProvider = {
 
     return Promise.resolve(user);
   },
+  register: ({username, email, password}) => {
+    // backend validation
+    const user = data.users.find(
+      (u) => u.username === username
+    );
+    console.log(user);
+    if (user) {
+      return Promise.reject(
+        new HttpError("Unauthorized", 401, {
+          message: "Username already exists",
+        })
+      );
+    }
+    return Promise.resolve();
+  }
 };
 
 export default authProvider;
